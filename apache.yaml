@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: apache
+  name: tomcat
   namespace: cloudengineers
 spec:
   selector:
     matchLabels:
-      app: apache
+      app: tomcat
   template:
     metadata:
       labels:
-        app: apache
+        app: tomcat
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: apache
+      - name: tomcat
         image: azurecontaineregistry.azurecr.io/httpd:1.1
         imagePullPolicy: Always
         resources:
@@ -28,11 +28,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: apache
+  name: tomcat
   namespace: cloudengineers
 spec:
   selector:
-    app: apache
+    app: tomcat
   ports:
   - port: 80
     targetPort: 80
@@ -41,13 +41,13 @@ spec:
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: apache
+  name: tomcat
   namespace: cloudengineers
 spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
-    name: apache
+    name: tomcat
   minReplicas: 1
   maxReplicas: 8
   metrics:
