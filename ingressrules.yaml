@@ -16,6 +16,6 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: apache
-          servicePort: 80
+          serviceName: traefik
+          servicePort: 8080
         path: /
